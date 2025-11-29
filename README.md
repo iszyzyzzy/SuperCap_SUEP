@@ -1,3 +1,5 @@
+forked from HKUST, thanks a loooooooooooot!
+---
 # RM2025-PowerControlBoard
 
 ## 通讯格式
