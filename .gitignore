@@ -1,0 +1,51 @@
+# 编译输出目录
+build/
+Debug/
+Release/
+
+# C/C++ 编译中间文件和产物
+*.o
+*.obj
+*.d
+*.su
+*.lst
+*.map
+*.hex
+*.bin
+*.elf
+*.axf
+*.dep
+
+# STM32CubeMX 生成的备份文件
+*.ioc.bak
+
+# 编辑器和IDE配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Clangd / 工具链生成文件
+compile_commands.json
+.cache/
+
+# Ozone 调试器用户配置和数据
+debug/
+*.jdebug.user
+debug/Ozone_Watched_Data_*.csv
+
+# Python (Upper 目录相关)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.pytest_cache/
+
+# 操作系统生成的系统文件
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini

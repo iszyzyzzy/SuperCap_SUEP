@@ -1,0 +1,29 @@
+CompileFlags:
+  Add: [
+    #"-std=gnu++14",
+    "-mcpu=cortex-m4",
+    "-mthumb",
+    "-mfpu=fpv4-sp-d16",
+    "-mfloat-abi=hard",
+    "-DUSE_HAL_DRIVER",
+    "-DSTM32G474xx",
+    "-ICore/Inc",
+    "-IDrivers/STM32G4xx_HAL_Driver/Inc",
+    "-IDrivers/STM32G4xx_HAL_Driver/Inc/Legacy",
+    "-IDrivers/CMSIS/Include",
+    "-I", "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include",
+    "-I", "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include",
+    "-I", "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
+    "-fno-exceptions",
+    "-fno-rtti",
+    "-fno-builtin",
+    "-fdata-sections",
+    "-ffunction-sections",
+    "-target", "arm-none-eabi"
+  ]
+
+  Compiler: arm-none-eabi-gcc
+
+Diagnostics:
+  Suppress:
+    - unused-includes

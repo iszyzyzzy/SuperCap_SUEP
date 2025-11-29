@@ -1,0 +1,20 @@
+Language:        Cpp
+
+BasedOnStyle:    LLVM
+
+IndentWidth:     4
+TabWidth:        4
+UseTab:          Never
+
+BreakBeforeBraces: Attach
+
+PointerAlignment: Right
+
+IndentCaseLabels: true
+
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: true
+AllowShortLoopsOnASingleLine: true
+Cpp11BracedListStyle: true
+NamespaceIndentation: Inner
+#AccessModifierOffset: -4
