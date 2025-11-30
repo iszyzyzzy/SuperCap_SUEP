@@ -26,6 +26,8 @@
 
 #define HRTIM_INT_SCALER    4U
 
+#define CALIBRATION_VOLTAGE_TARGET 20.0f
+
 
 struct RxData;
 struct TxData;
@@ -42,7 +44,7 @@ struct SystemData
     uint8_t lfLoopIndex = 0;
 };
 
-enum DCDCMode{BUCK, BUCKBOOST, BOOSTBUCK, BOOST, CALIBRATION_A, CALIBRATION_B};
+enum DCDCMode{BUCK, BUCKBOOST, BOOSTBUCK, BOOST, CALIBRATION_A, CALIBRATION_B, CALIBRATION};
 enum PCMMode{IB_VALLEY, IA_PEAK};
 
 struct PowerStageData

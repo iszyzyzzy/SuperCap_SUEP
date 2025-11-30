@@ -196,6 +196,10 @@ void init()
     psData.outputABEnabled = 0;
     HRTIM::startTimer();
 
+#ifdef CALIBRATION_MODE
+    psData.dcdcMode = CALIBRATION;
+#endif
+
     HAL_Delay(400);
     sysData.systemInited = true;
 }

@@ -68,6 +68,17 @@ void disableOutputAB() {
 }
 
 __attribute__((section(".code_in_ram"))) void modeStateMachine() {
+#ifdef CALIBRATION_MODE
+    if (psData.dcdcMode == CALIBRATION)
+    {
+        // Lock to BUCK mode
+    }
+    else
+    {
+        // Fallback to BUCK if something goes wrong
+        psData.dcdcMode = BUCK;
+    }
+#else
     // 根据电压计算占空比
     psData.dutyByVoltage = M_MAX(adcData.vB, 0.01f) / adcData.vA;
 
@@ -99,10 +110,12 @@ __attribute__((section(".code_in_ram"))) void modeStateMachine() {
         default:
             break;
     }
+#endif
 
     // 根据状态操作HRTIM寄存器，并分别计算A和B的占空比
     switch (psData.dcdcMode) {
         case BUCK:
+        case CALIBRATION:
             // A侧限制94%占空比
             __HAL_HRTIM_SETCOMPARE(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A,
                                    HRTIM_COMPAREUNIT_4, HRTIM_PERIOD * 0.06f);
@@ -778,12 +791,33 @@ HRTIM1_Master_IRQHandler(void) // 136kHz/8 sample
     // 更新BuckBoost功率级模式
     HRTIM::modeStateMachine();
 
-    if (psData.outputABEnabled) {
-        Protection::checkShortCircuit();
+        if (psData.outputABEnabled) {
 
-        PowerControl::updateMFLoop();
+            Protection::checkShortCircuit();
 
-        PowerControl::setInductorCurrent();
+    
+
+    #ifdef CALIBRATION_MODE
+
+            // Simple P-controller for voltage regulation in BUCK mode
+
+            const float V_TARGET = CALIBRATION_VOLTAGE_TARGET;
+
+            const float Kp = 0.5f;
+
+            float error = V_TARGET - adcData.vCap;
+
+            psData.iLTarget = Kp * error;
+
+    #else
+
+            PowerControl::updateMFLoop();
+
+    #endif
+
+    
+
+            PowerControl::setInductorCurrent();
 
         Protection::checkEfficiency();
 
