@@ -36,14 +36,15 @@ void init() {
     // 向CCRDMABuff写入一个全绿做开机提示，但是不写入rgbStatus，这样第一次update就会把它覆盖掉
     unsigned int data;
     for (unsigned int i = 0; i < LED_NUM; i++) {
-        data = 0x00FF00; // Green
-        for (unsigned int j = 0; j < sizeof(RGB) * 8; j++)
-            CCRDMABuff[i * sizeof(RGB) * 8 + j] =
-                ((1UL << (23 - j)) & data) ? BIT1_WIDTH : BIT0_WIDTH;
+        data = 0xFF0000; // Green (GRB: G=FF, R=00, B=00)
+        for (unsigned int j = 0; j < 24; j++)
+            CCRDMABuff[i * 24 + j] =
+                ((data >> (23 - j)) & 1) ? BIT1_WIDTH : BIT0_WIDTH;
     }
-    CCRDMABuff[LED_NUM * sizeof(RGB) * 8] = 0;
+    CCRDMABuff[LED_NUM * 24] = 0;
+    rgbStatus.txFlag = 1;
     HAL_TIM_PWM_Start_DMA(&WS2812_TIM, WS2812_TIM_CHANNEL, CCRDMABuff,
-                          LED_NUM * sizeof(RGB) * 8 + 1);
+                          LED_NUM * 24 + 1);
 }
 
 void update() {
@@ -54,21 +55,23 @@ void update() {
 
     /*Pack the RGB Value*/
     for (unsigned int i = 0; i < LED_NUM; i++) {
-        data = *(unsigned volatile int *)(&rgbStatus.rgbs[i]);
-        for (unsigned int j = 0; j < sizeof(RGB) * 8; j++)
-            CCRDMABuff[i * sizeof(RGB) * 8 + j] =
-                ((1UL << (23 - j)) & data) ? BIT1_WIDTH : BIT0_WIDTH;
+        // GRB Order
+        data = (rgbStatus.rgbs[i].green << 16) | 
+               (rgbStatus.rgbs[i].red << 8) | 
+               rgbStatus.rgbs[i].blue;
+        for (unsigned int j = 0; j < 24; j++)
+            CCRDMABuff[i * 24 + j] =
+                ((data >> (23 - j)) & 1) ? BIT1_WIDTH : BIT0_WIDTH;
     }
-    CCRDMABuff[LED_NUM * sizeof(RGB) * 8] = 0;
+    CCRDMABuff[LED_NUM * 24] = 0;
 
     /*Transmit DMA*/
     HAL_TIM_PWM_Start_DMA(&WS2812_TIM, WS2812_TIM_CHANNEL, CCRDMABuff,
-                          LED_NUM * sizeof(RGB) * 8 + 1);
-    rgbStatus.updatedFlag = 0;
+                          LED_NUM * 24 + 1);
 }
 
 void blink(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
-    if (index >= LED_NUM || rgbStatus.txFlag) return;
+    if (index >= LED_NUM) return;
     rgbStatus.updatedFlag = 1;
     rgbStatus.rgbs[index].blue = b;
     rgbStatus.rgbs[index].green = g;
@@ -76,7 +79,7 @@ void blink(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
 }
 
 void blink(uint8_t index, uint32_t colorCode) {
-    if (index >= LED_NUM || rgbStatus.txFlag) return;
+    if (index >= LED_NUM) return;
     rgbStatus.updatedFlag = 1;
     rgbStatus.rgbs[index].red = (colorCode >> 16) & 0xFF;
     rgbStatus.rgbs[index].green = (colorCode >> 8) & 0xFF;
