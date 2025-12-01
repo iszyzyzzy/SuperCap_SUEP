@@ -1,0 +1,176 @@
+   0.269455800s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="upper"}: cargo::core::compiler::fingerprint: dependency on `build_script_build` is newer than we are 13408977394.770852200s > 13408977350.568275900s "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\libusb1-sys-0.7.0"
+   0.269648700s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="upper"}: cargo::core::compiler::fingerprint: dependency on `build_script_build` is newer than we are 13408977394.821503600s > 13408977351.418270800s "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\rusb-0.9.4"
+   0.349236200s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="upper"}: cargo::core::compiler::fingerprint: dependency on `build_script_build` is newer than we are 13408977394.770852200s > 13408977335.933036400s "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\bindgen-0.69.5"
+   0.349379100s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="upper"}: cargo::core::compiler::fingerprint: fingerprint error for upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper)/Check { test: false }/TargetInner { name: "upper", doc: true, ..: with_path("D:\\code\\rm\\supercap\\supercap_25_claude\\PowerControlBoard_Software_FieldVersion\\tools\\upper\\src\\main.rs", Edition2021) }
+   0.349404900s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="upper"}: cargo::core::compiler::fingerprint:     err: failed to read `D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper\target\debug\.fingerprint\upper-12b4b5e46fad760c\bin-upper`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   0.389150400s  INFO prepare_target{force=false package_id=rusb v0.9.4 target="rusb"}: cargo::core::compiler::fingerprint: fingerprint dirty for rusb v0.9.4/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("rusb", ["lib"], "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\rusb-0.9.4\\src\\lib.rs", Edition2018) }
+   0.389176900s  INFO prepare_target{force=false package_id=rusb v0.9.4 target="rusb"}: cargo::core::compiler::fingerprint:     dirty: UnitDependencyInfoChanged { old_name: "build_script_build", old_fingerprint: 18361567806388576960, new_name: "build_script_build", new_fingerprint: 7239788700367169265 }
+   0.389858000s  INFO prepare_target{force=false package_id=libusb1-sys v0.7.0 target="libusb1_sys"}: cargo::core::compiler::fingerprint: fingerprint dirty for libusb1-sys v0.7.0/Check { test: false }/TargetInner { name_inferred: true, ..: lib_target("libusb1_sys", ["lib"], "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\libusb1-sys-0.7.0\\src\\lib.rs", Edition2018) }
+   0.389876600s  INFO prepare_target{force=false package_id=libusb1-sys v0.7.0 target="libusb1_sys"}: cargo::core::compiler::fingerprint:     dirty: UnitDependencyInfoChanged { old_name: "build_script_build", old_fingerprint: 3776949743371571568, new_name: "build_script_build", new_fingerprint: 18161479335787707354 }
+   0.390731300s  INFO prepare_target{force=false package_id=libusb1-sys v0.7.0 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint dirty for libusb1-sys v0.7.0/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\libusb1-sys-0.7.0\\build.rs", Edition2018) }
+   0.390749100s  INFO prepare_target{force=false package_id=libusb1-sys v0.7.0 target="build-script-build"}: cargo::core::compiler::fingerprint:     dirty: EnvVarChanged { name: "PKG_CONFIG_PATH", old_value: Some("C:\\msys64\\mingw64\\lib\\pkgconfig"), new_value: None }
+   0.392053300s  INFO prepare_target{force=false package_id=rusb v0.9.4 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint dirty for rusb v0.9.4/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\rusb-0.9.4\\build.rs", Edition2018) }
+   0.392069100s  INFO prepare_target{force=false package_id=rusb v0.9.4 target="build-script-build"}: cargo::core::compiler::fingerprint:     dirty: UnitDependencyInfoChanged { old_name: "build_script_build", old_fingerprint: 10334723445899564016, new_name: "build_script_build", new_fingerprint: 18161479335787707354 }
+   0.392786300s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint error for upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper)/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "D:\\code\\rm\\supercap\\supercap_25_claude\\PowerControlBoard_Software_FieldVersion\\tools\\upper\\build.rs", Edition2021) }
+   0.392801500s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="build-script-build"}: cargo::core::compiler::fingerprint:     err: failed to read `D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper\target\debug\.fingerprint\upper-1dd353d930034ac2\run-build-script-build-script-build`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::custom_build::build_work
+   7: cargo::core::compiler::custom_build::prepare
+   8: cargo::core::compiler::compile
+   9: cargo::core::compiler::compile
+  10: <cargo::core::compiler::build_runner::BuildRunner>::compile
+  11: cargo::ops::cargo_compile::compile_ws
+  12: cargo::ops::cargo_compile::compile_with_exec
+  13: cargo::ops::cargo_compile::compile
+  14: cargo::commands::check::exec
+  15: <cargo::cli::Exec>::exec
+  16: cargo::cli::main
+  17: cargo::main
+  18: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  19: std::rt::lang_start::<()>::{closure#0}
+  20: std::rt::lang_start_internal
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\core\src\ops/function.rs:287:21
+  21: main
+  22: __tmainCRTStartup
+  23: mainCRTStartup
+  24: <unknown>
+  25: <unknown>
+   0.393215400s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint dirty for upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper)/Build/TargetInner { ..: custom_build_target("build-script-build", "D:\\code\\rm\\supercap\\supercap_25_claude\\PowerControlBoard_Software_FieldVersion\\tools\\upper\\build.rs", Edition2021) }
+   0.393242600s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="build-script-build"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDepFingerprint { name: "bindgen" })
+   0.394069800s  INFO prepare_target{force=false package_id=bindgen v0.69.5 target="bindgen"}: cargo::core::compiler::fingerprint: fingerprint dirty for bindgen v0.69.5/Build/TargetInner { ..: lib_target("bindgen", ["lib"], "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\bindgen-0.69.5\\lib.rs", Edition2018) }
+   0.394085600s  INFO prepare_target{force=false package_id=bindgen v0.69.5 target="bindgen"}: cargo::core::compiler::fingerprint:     dirty: FsStatusOutdated(StaleDependency { name: "build_script_build", dep_mtime: FileTime { seconds: 13408977394, nanos: 770852200 }, max_mtime: FileTime { seconds: 13408977335, nanos: 933036400 } })
+   0.395188900s  INFO prepare_target{force=false package_id=bindgen v0.69.5 target="build-script-build"}: cargo::core::compiler::fingerprint: fingerprint dirty for bindgen v0.69.5/RunCustomBuild/TargetInner { ..: custom_build_target("build-script-build", "C:\\Users\\zhouy\\.cargo\\registry\\src\\rsproxy.cn-e3de039b2554c837\\bindgen-0.69.5\\build.rs", Edition2018) }
+   0.395204700s  INFO prepare_target{force=false package_id=bindgen v0.69.5 target="build-script-build"}: cargo::core::compiler::fingerprint:     dirty: EnvVarChanged { name: "LIBCLANG_PATH", old_value: Some("C:\\msys64\\mingw64\\bin"), new_value: None }
+   0.399887900s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="upper"}: cargo::core::compiler::fingerprint: fingerprint error for upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper)/Check { test: true }/TargetInner { name: "upper", doc: true, ..: with_path("D:\\code\\rm\\supercap\\supercap_25_claude\\PowerControlBoard_Software_FieldVersion\\tools\\upper\\src\\main.rs", Edition2021) }
+   0.399908000s  INFO prepare_target{force=false package_id=upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper) target="upper"}: cargo::core::compiler::fingerprint:     err: failed to read `D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper\target\debug\.fingerprint\upper-c9bd6796e5e1e80c\test-bin-upper`
+
+Caused by:
+    系统找不到指定的文件。 (os error 2)
+
+Stack backtrace:
+   0: std::backtrace::Backtrace::create
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\std\src\..\..\backtrace\src\backtrace/win64.rs:85:14
+   1: std::backtrace::Backtrace::capture
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\std\src/backtrace.rs:296:9
+   2: <std::io::error::Error as anyhow::context::ext::StdError>::ext_context::<alloc::string::String>
+   3: cargo_util::paths::read
+   4: cargo::core::compiler::fingerprint::_compare_old_fingerprint
+   5: cargo::core::compiler::fingerprint::prepare_target
+   6: cargo::core::compiler::compile
+   7: <cargo::core::compiler::build_runner::BuildRunner>::compile
+   8: cargo::ops::cargo_compile::compile_ws
+   9: cargo::ops::cargo_compile::compile_with_exec
+  10: cargo::ops::cargo_compile::compile
+  11: cargo::commands::check::exec
+  12: <cargo::cli::Exec>::exec
+  13: cargo::cli::main
+  14: cargo::main
+  15: std::sys::backtrace::__rust_begin_short_backtrace::<fn(), ()>
+  16: std::rt::lang_start::<()>::{closure#0}
+  17: std::rt::lang_start_internal
+             at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\core\src\ops/function.rs:287:21
+  18: main
+  19: __tmainCRTStartup
+  20: mainCRTStartup
+  21: <unknown>
+  22: <unknown>
+   Compiling bindgen v0.69.5
+   Compiling libusb1-sys v0.7.0
+   Compiling upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper)
+error: failed to run custom build command for `upper v0.1.0 (D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper)`
+note: To improve backtraces for build dependencies, set the CARGO_PROFILE_DEV_BUILD_OVERRIDE_DEBUG=true environment variable to enable debug information generation.
+
+Caused by:
+  process didn't exit successfully: `D:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\tools\upper\target\debug\build\upper-a79c829170ab4f21\build-script-build` (exit code: 101)
+  --- stdout
+  cargo:rerun-if-env-changed=LIBUSB_1.0_NO_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-pc-windows-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_pc_windows_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG
+  cargo:rerun-if-env-changed=LIBUSB_1.0_STATIC
+  cargo:rerun-if-env-changed=LIBUSB_1.0_DYNAMIC
+  cargo:rerun-if-env-changed=PKG_CONFIG_ALL_STATIC
+  cargo:rerun-if-env-changed=PKG_CONFIG_ALL_DYNAMIC
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-pc-windows-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_pc_windows_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-pc-windows-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_pc_windows_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-pc-windows-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_pc_windows_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+
+  --- stderr
+
+  thread 'main' (99620) panicked at build.rs:9:58:
+  libusb-1.0 not found. Please install it.: 
+  pkg-config exited with status code 1
+  > PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags libusb-1.0
+
+  The system library `libusb-1.0` required by crate `upper` was not found.
+  The file `libusb-1.0.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+  The PKG_CONFIG_PATH environment variable is not set.
+
+  HINT: if you have installed the library, try setting PKG_CONFIG_PATH to the directory containing `libusb-1.0.pc`.
+
+  stack backtrace:
+     0: __rustc::rust_begin_unwind
+               at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\std\src/panicking.rs:698:5
+     1: core::panicking::panic_fmt
+               at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\core\src/panicking.rs:75:14
+     2: core::result::unwrap_failed
+               at /rustc/ed61e7d7e242494fb7057f2657300d9e77bb4fcb/library\core\src/result.rs:1855:5
+     3: core::result::Result<T,E>::expect
+     4: build_script_build::main
+     5: core::ops::function::FnOnce::call_once
+  note: Some details are omitted, run with `RUST_BACKTRACE=full` for a verbose backtrace.
+warning: build failed, waiting for other jobs to finish...
+   Compiling rusb v0.9.4

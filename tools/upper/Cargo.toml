@@ -1,0 +1,16 @@
+[package]
+name = "upper"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+iced = { version = "0.12", features = ["tokio", "advanced"] }
+tokio = { version = "1", features = ["full"] }
+byteorder = "1.4"
+thiserror = "1.0"
+rusb = "0.9"
+
+[build-dependencies]
+cc = "1.0"
+bindgen = "0.69"
+pkg-config = "0.3"
