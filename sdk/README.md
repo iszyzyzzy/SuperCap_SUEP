@@ -2,6 +2,10 @@
 该sdk用于与超级电容控制板进行通讯，包含打包数据和解包数据的功能。
 考虑到目前要用这玩意的性能不会特别差，就只做了解析出实际单位的版本，要raw数据得直接自己解包
 另外我们直接了新版包类型，毕竟现在的我们也没啥历史包袱
+clone说明: 你可以直接clone sdk分支，这个分支里只有这个sdk的代码，方便集成到你的工程里
+```bash
+git clone -b sdk <repo-url> --single-branch
+```
 ## 安装
 将`sdk/include/supercap_sdk.h`和`sdk/src/supercap_sdk.c`添加到你的工程中，并包含头文件`supercap_sdk.h`即可使用。
 ## 使用方法
