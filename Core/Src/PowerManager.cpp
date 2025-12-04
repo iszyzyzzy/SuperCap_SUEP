@@ -440,6 +440,15 @@ __attribute__((section(".code_in_ram"))) void updateMFLoop() {
     }
     psData.iLTarget += mfLoop.deltaIL; // + mfLoop.dIL_recoverBurst);
     psData.iLTarget = M_CLAMP(psData.iLTarget, -psData.iLLimit, psData.iLLimit);
+
+    // [新增] 强制限制低电压时的电流，防止传感器故障导致积分器饱和
+    // 即使电流传感器也读数为0，这里也会强制将目标电流压在1A以下
+    if (adcData.vCap < CAPARR_CUTOFF_VOLTAGE) {
+        if (psData.iLTarget > capStatus.maxInCurrent) {
+            psData.iLTarget = capStatus.maxInCurrent;
+            ctrlData.limitFactor = IB_POSITIVE;
+        }
+    }
 }
 
 void updateRefereePower(const RxData &rd, const uint32_t &currentTick) {
@@ -582,6 +591,18 @@ __attribute__((section(".code_in_ram"))) void checkShortCircuit() {
             errorData.errorCurrent = adcData.iB;
         }
     }
+
+    // // [新增] 传感器故障保护：如果目标电流很大但电压极低，说明可能发生了传感器断路或严重短路
+    // if (psData.outputABEnabled && psData.iLTarget > 2.0f && adcData.vB < 1.0f) {
+    //     errorData.shortCircuitCnt += 100;
+    //     if (errorData.shortCircuitCnt > 2000) {
+    //         HRTIM::disableOutputAB();
+    //         errorData.errorCode |= ERROR_SCP_B; // 视为B端短路
+    //         errorData.errorLevel = ERROR_RECOVER_MANUAL;
+    //         errorData.errorVoltage = adcData.vB;
+    //         errorData.errorCurrent = psData.iLTarget;
+    //     }
+    // }
 }
 
 __attribute__((section(".code_in_ram"))) void checkEfficiency() {
