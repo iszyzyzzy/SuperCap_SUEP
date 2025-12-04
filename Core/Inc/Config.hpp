@@ -2,6 +2,8 @@
 
 #define WITHOUT_UPPER
 
+#define DEFAULT_WITH_NEW_FORMAT
+
 /*-------- HARDWARE CONFIG --------*/
 #define HW_VSENSE_RATIO     16.0f   // 33k:2.2k
 #define HW_ISENSE_RATIO     25.0f   // INA240A1 1/(20*0.002)

@@ -6,7 +6,8 @@
 
 // 发送给超级电容的控制数据 (Chassis -> Supercap)
 
-#define SUPERCAP_CAN_ID 0x52
+#define SUPERCAP_RECEIVE_CAN_ID 0x052
+#define SUPERCAP_SEND_CAN_ID 0x061
 
 typedef struct {
     // 开关控制
@@ -20,7 +21,7 @@ typedef struct {
     uint16_t referee_energy_buffer;     // 裁判剩余缓冲能量 (J)
     
     // 策略参数
-    uint8_t active_charging_limit_ratio; // 主动充电限制比例 (0-255)
+    float active_charging_limit_ratio; // 主动充电限制比例 (0-1.0)
 } SuperCap_Control_t;
 
 typedef enum {
@@ -49,8 +50,8 @@ typedef struct {
     // 物理量 (已转换为实际单位)
     float chassis_power_w;              // 底盘实际功率 (W)
     float referee_power_w;              // 裁判系统功率 (W)
-    uint16_t chassis_power_limit_w;     // 当前底盘最大可用功率 (W)
-    float cap_energy_percent;           // 电容剩余能量百分比，注意这个是可以超过1的（以电容冲到29.5V为1计算，最后一点为保护和能量回收预留）
+    uint16_t chassis_power_limit_w;     // 当前底盘最大可用功率 (W)，这主要是基于裁判系统电流限制算出来的，如果不放心可以再加个缩放系数0.9什么的
+    float cap_energy_percent;           // 电容剩余能量百分比，注意这个是可以超过1的（以电容冲到28.8V为1计算，最后一点为保护和能量回收预留）
 } SuperCap_Feedback_t;
 
 

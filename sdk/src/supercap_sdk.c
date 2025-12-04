@@ -1,12 +1,12 @@
 #include "supercap_sdk.h"
 
 void SuperCap_InitDefaultControl(SuperCap_Control_t *control) {
-    control->enable_dcdc = false;
+    control->enable_dcdc = true;
     control->system_restart = false;
     control->clear_error = false;
     control->enable_active_charging_limit = false;
-    control->referee_power_limit = 0;
-    control->referee_energy_buffer = 0;
+    control->referee_power_limit = 37;
+    control->referee_energy_buffer = 57;
     control->active_charging_limit_ratio = 0;
 }
 
@@ -42,7 +42,7 @@ void SuperCap_PackTxData(const SuperCap_Control_t *control,
     tx_buffer[4] = (uint8_t)((control->referee_energy_buffer >> 8) & 0xFF);
 
     // Byte 5: 主动充电限制比例
-    tx_buffer[5] = control->active_charging_limit_ratio;
+    tx_buffer[5] = (uint8_t)(control->active_charging_limit_ratio * 255.0f);
 
     // Byte 6-7: Reserved
     tx_buffer[6] = 0;
@@ -75,12 +75,12 @@ void SuperCap_ParseRxData(const uint8_t *rx_buffer,
     // Byte 1-2: 底盘功率
     uint16_t raw_chassis_power =
         (uint16_t)rx_buffer[1] | ((uint16_t)rx_buffer[2] << 8);
-    feedback->chassis_power_w = (float)(raw_chassis_power - 16384) / 64.0f;
+    feedback->chassis_power_w = ((float)raw_chassis_power - 16384) / 64.0f;
 
     // Byte 3-4: 裁判系统功率
     uint16_t raw_referee_power =
         (uint16_t)rx_buffer[3] | ((uint16_t)rx_buffer[4] << 8);
-    feedback->referee_power_w = (float)(raw_referee_power - 16384) / 64.0f;
+    feedback->referee_power_w = ((float)raw_referee_power - 16384) / 64.0f;
 
     // Byte 5-6: 底盘功率限制
     feedback->chassis_power_limit_w =
