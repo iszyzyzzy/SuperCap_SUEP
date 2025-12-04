@@ -11,6 +11,7 @@ CompileFlags:
     "-IDrivers/STM32G4xx_HAL_Driver/Inc",
     "-IDrivers/STM32G4xx_HAL_Driver/Inc/Legacy",
     "-IDrivers/CMSIS/Include",
+    "-Isdk/include",
     "-I", "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/arm-none-eabi/include",
     "-I", "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include",
     "-I", "C:/Program Files (x86)/GNU Arm Embedded Toolchain/10 2021.10/lib/gcc/arm-none-eabi/10.3.1/include-fixed",

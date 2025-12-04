@@ -100,7 +100,8 @@ Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_opamp.c \
 Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_opamp_ex.c \
 Core/Src/dac.c \
 Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dac.c \
-Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dac_ex.c
+Drivers/STM32G4xx_HAL_Driver/Src/stm32g4xx_hal_dac_ex.c \
+sdk/src/supercap_sdk.c
 
 # CPP sources
 CPP_SOURCES =  \
@@ -171,7 +172,8 @@ C_INCLUDES =  \
 -IDrivers/STM32G4xx_HAL_Driver/Inc \
 -IDrivers/STM32G4xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32G4xx/Include \
--IDrivers/CMSIS/Include
+-IDrivers/CMSIS/Include \
+-Isdk/include
 
 
 #######################################
