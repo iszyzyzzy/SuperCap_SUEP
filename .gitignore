@@ -33,7 +33,6 @@ compile_commands.json
 # Ozone 调试器用户配置和数据
 debug/
 *.jdebug.user
-debug/Ozone_Watched_Data_*.csv
 
 # Python (Upper 目录相关)
 __pycache__/
@@ -53,5 +52,6 @@ Desktop.ini
 # 达妙的can sdk
 Upper/canSDK
 
-#
-RM2025超级电容与无线充电系统技术报告.pdf
+# ai
+.CLAUDE.md
+.GENIE.md

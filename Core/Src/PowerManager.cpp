@@ -592,17 +592,17 @@ __attribute__((section(".code_in_ram"))) void checkShortCircuit() {
         }
     }
 
-    // [新增] 传感器故障保护：如果目标电流很大但电压极低，说明可能发生了传感器断路或严重短路
-    if (psData.outputABEnabled && psData.iLTarget > 2.0f && adcData.vB < 1.0f) {
-        errorData.shortCircuitCnt += 100;
-        if (errorData.shortCircuitCnt > 2000) {
-            HRTIM::disableOutputAB();
-            errorData.errorCode |= ERROR_SCP_B; // 视为B端短路
-            errorData.errorLevel = ERROR_RECOVER_MANUAL;
-            errorData.errorVoltage = adcData.vB;
-            errorData.errorCurrent = psData.iLTarget;
-        }
-    }
+    // // [新增] 传感器故障保护：如果目标电流很大但电压极低，说明可能发生了传感器断路或严重短路
+    // if (psData.outputABEnabled && psData.iLTarget > 2.0f && adcData.vB < 1.0f) {
+    //     errorData.shortCircuitCnt += 100;
+    //     if (errorData.shortCircuitCnt > 2000) {
+    //         HRTIM::disableOutputAB();
+    //         errorData.errorCode |= ERROR_SCP_B; // 视为B端短路
+    //         errorData.errorLevel = ERROR_RECOVER_MANUAL;
+    //         errorData.errorVoltage = adcData.vB;
+    //         errorData.errorCurrent = psData.iLTarget;
+    //     }
+    // }
 }
 
 __attribute__((section(".code_in_ram"))) void checkEfficiency() {

@@ -34,9 +34,8 @@ void init() {
     memset(&rgbStatus, 0, sizeof(RGBStatus));
     memset(CCRDMABuff, 0, sizeof(CCRDMABuff));
     // 向CCRDMABuff写入一个全绿做开机提示，但是不写入rgbStatus，这样第一次update就会把它覆盖掉
-    unsigned int data;
+    constexpr uint32_t data = scale_color(0xFF0000); // 因为是GRB顺序
     for (unsigned int i = 0; i < LED_NUM; i++) {
-        data = scale_color(COLOR_GREEN);
         for (unsigned int j = 0; j < 24; j++)
             CCRDMABuff[i * 24 + j] =
                 ((data >> (23 - j)) & 1) ? BIT1_WIDTH : BIT0_WIDTH;
@@ -72,7 +71,8 @@ void update() {
 
 void blink(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
     if (index >= LED_NUM) return;
-    rgbStatus.updatedFlag = 1;
+    // 手动管理updated
+    //rgbStatus.updatedFlag = 1; 
     rgbStatus.rgbs[index].blue = b;
     rgbStatus.rgbs[index].green = g;
     rgbStatus.rgbs[index].red = r;
@@ -80,7 +80,7 @@ void blink(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
 
 void blink(uint8_t index, uint32_t colorCode) {
     if (index >= LED_NUM) return;
-    rgbStatus.updatedFlag = 1;
+    //rgbStatus.updatedFlag = 1;
     rgbStatus.rgbs[index].red = (colorCode >> 16) & 0xFF;
     rgbStatus.rgbs[index].green = (colorCode >> 8) & 0xFF;
     rgbStatus.rgbs[index].blue = colorCode & 0xFF;
@@ -318,6 +318,10 @@ void updateLEDs() {
             }
         }
     }
+
+    WS2812::rgbStatus.updatedFlag = 1; 
+    WS2812::update();
+
 }
 
 } // namespace Interface

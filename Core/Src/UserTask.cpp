@@ -43,7 +43,7 @@ void tickCallback(TIM_HandleTypeDef *htim)
             sysData.vTick++;
             Buzzer::update();
             Interface::updateLEDs();
-            WS2812::update();
+            //WS2812::update();
             Protection::errorHandlerLF();
             sysData.lfLoopIndex++;
             break;

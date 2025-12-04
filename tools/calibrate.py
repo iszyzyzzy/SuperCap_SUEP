@@ -100,7 +100,7 @@ def main():
             curr = float(m_aa.group(1))
             targets['vA'] = 24.0
             targets['iA'] = 0.0 # iA does not seem to measure REF current based on data
-            targets['iR'] = -curr # REF current negative (out)
+            targets['iR'] = curr # REF current positive (in)
             targets['iB'] = 0.0
             
         elif m_b:
