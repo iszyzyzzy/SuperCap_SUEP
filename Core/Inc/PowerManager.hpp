@@ -132,7 +132,11 @@ struct ControlData
         uint32_t lastTimestamp = 0;
         float pRefereeBias = 0.0f;
         bool isConnected = 0;
+        #ifdef DEFAULT_WITH_NEW_FORMAT
+        bool useNewFeedbackMessage = 1;
+        #else
         bool useNewFeedbackMessage = 0;
+        #endif
     };
     
     LimitFactor limitFactor;

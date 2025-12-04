@@ -3,6 +3,7 @@
 // 允许在无法与上位机通讯的情况下不进入保护
 #define WITHOUT_UPPER
 
+#define DEFAULT_WITH_NEW_FORMAT
 
 /*-------- HARDWARE CONFIG --------*/
 #define HW_VSENSE_RATIO     16.0f   // 33k:2.2k
