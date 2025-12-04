@@ -1,5 +1,6 @@
 #pragma once
 
+// 允许在无法与上位机通讯的情况下不进入保护
 #define WITHOUT_UPPER
 
 #define DEFAULT_WITH_NEW_FORMAT
