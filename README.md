@@ -1,13 +1,16 @@
 # 超级电容通讯sdk
 该sdk用于与超级电容控制板进行通讯，包含打包数据和解包数据的功能。
-考虑到目前要用这玩意的性能不会特别差，就只做了解析出实际单位的版本，要raw数据得直接自己解包
-另外我们直接了新版包类型，毕竟现在的我们也没啥历史包袱
-clone说明: 你可以直接clone sdk分支，这个分支里只有这个sdk的代码，方便集成到你的工程里
+
+只做了解析出实际单位的版本
+
+另外直接强制了新版包类型，毕竟现在的我们也没啥历史包袱
+
+再另:你可以直接clone sdk分支，这个分支里只有这个sdk的代码，方便集成到你的工程里
 ```bash
-git clone -b sdk <repo-url> --single-branch
+git clone -b sdk https://github.com/iszyzyzzy/SuperCap_SUEP.git --single-branch
 ```
 ## 安装
-将`sdk/include/supercap_sdk.h`和`sdk/src/supercap_sdk.c`添加到你的工程中，并包含头文件`supercap_sdk.h`即可使用。
+将`include/supercap_sdk.h`和`src/supercap_sdk.c`添加到你的工程中，在需要的地方包含头文件`supercap_sdk.h`即可使用。
 ## 使用方法
 ```c
 #include "supercap_sdk.h"
@@ -15,10 +18,8 @@ git clone -b sdk <repo-url> --single-branch
 uint8_t tx_buffer[8];
 uint8_t rx_buffer[8];
 
-// 你可以像hal一样这样初始化控制结构体
+// 初始化控制结构体
 SuperCap_Control_t control = {0};
-// 如果需要重置为默认值可以再次 control = (SuperCap_Control_t){0};
-// 或者语义明确一点的
 SuperCap_InitDefaultControl(&control);
 // 注意这个是有值的，不是全0的
 
@@ -27,10 +28,10 @@ control.enable_dcdc = true;
 control.system_restart = false; // 这个只要发一个包就会重启！不要重复发
 control.clear_error = false;
 control.enable_active_charging_limit = false;
-// ！！！这两个从裁判系统来
-// 如果真的裁判系统掉线了什么建议设置为37w/57j,这相当于回落到最低的功率默认值和禁用缓冲能量闭环
-control.referee_power_limit = POWER_LIMIT; 
-control.referee_energy_buffer = ENERGY_BUFFER; 
+// 这两个从裁判系统来
+// 如果是在没有裁判系统时建议设置为你想要的功率和57j，57j相当于禁用缓冲能量闭环
+control.referee_power_limit = 37; 
+control.referee_energy_buffer = 57; 
 
 control.active_charging_limit_ratio = 0.8f; // 在enable_active_charging_limit为false时无效
 
@@ -96,7 +97,25 @@ if (rxHeader.Identifier == SUPERCAP_RECEIVE_CAN_ID) && (rxHeader.DataLength == 0
 ```c
 float result = ((float)raw - 16384) / 64.0f;
 ```
+#### 无限充电状态说明
+// TODO
+#### 功率限制因素说明
+```c
+SUPERCAP_REFEREE_POWER = 0,                 // 裁判系统功率限制
+SUPERCAP_CAPARR_VOLTAGE_MAX = 1,            // 电容组电压到达最大值
+SUPERCAP_CAPARR_VOLTAGE_LOW = 2,            // 电容组低压充电功率限制
+SUPERCAP_IB_POSITIVE_OR_IB_NEGATIVE = 3,    // 电容侧电流限制,通常是碰到了超电管理模块的电流上限
+```
+#### 错误标志位说明
+```c
+SUPERCAP_NO_ERROR = 0,               // 无错误
+SUPERCAP_ERROR_RECOVER_AUTO = 1,     // 错误，过时自动恢复
+SUPERCAP_ERROR_RECOVER_MANUAL = 2,   // 错误，按板载按钮恢复
+SUPERCAP_ERROR_UNRECOVERABLE = 3,    // 错误，不可恢复
+/// WARNING不会被发送
+/// 没有具体的错误码，两个bit实在没法塞了见谅
+```
 #### 能量百分比说明
-cap_energy的计算是(VCap/CAPARR_MAX_VOLTAGE)^2 * 250U，CAPARR_MAX_VOLTAGE默认为28.8V，这意味着这里的值和能量就是成正比的，不用额外处理，不过另外要注意这个值是可以超过250的，能量回收什么的优先级更高能让它超过电压环
+cap_energy的计算是`(VCap/CAPARR_MAX_VOLTAGE)^2 * 250U`，CAPARR_MAX_VOLTAGE默认为28.8V，这意味着这里的值和能量就是成正比的，不用额外处理，不过另外要注意这个值是可以超过250的，能量回收什么的优先级更高能让它超过电压环
 
 ---
