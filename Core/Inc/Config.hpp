@@ -79,7 +79,7 @@
 // 电容组低电量限流
 #define CAPARR_CUTOFF_VOLTAGE   5.0f
 #define CAPARR_LOW_VOLTAGE      10.0f
-#define CAPARR_MAX_VOLTAGE      28.8f//
+#define CAPARR_MAX_VOLTAGE      28.3f//
 #define CAPARR_MAX_CURRENT      15.0f
 #define CM01_CURRENT_LIMIT      15.0f
 

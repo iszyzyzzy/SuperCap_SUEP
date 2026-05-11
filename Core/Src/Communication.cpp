@@ -122,6 +122,34 @@ FDCAN_TxHeaderTypeDef getTxHeader(uint16_t id)
 
 static FDCAN_TxHeaderTypeDef txHeader = getTxHeader(0x051);
 static FDCAN_TxHeaderTypeDef txHeaderNew = getTxHeader(0x052);
+#ifdef CALIBRATION_MODE
+static FDCAN_TxHeaderTypeDef txHeaderCal0 = getTxHeader(0x053);
+static FDCAN_TxHeaderTypeDef txHeaderCal1 = getTxHeader(0x054);
+static TxCalibrationRaw0 txCalibrationRaw0;
+static TxCalibrationRaw1 txCalibrationRaw1;
+
+static uint16_t clampRawU16(const float value)
+{
+    if (value <= 0.0f)
+        return 0U;
+    if (value >= 65535.0f)
+        return 65535U;
+    return static_cast<uint16_t>(value + 0.5f);
+}
+
+static void generateCalibrationRawFrames(TxCalibrationRaw0 &frame0, TxCalibrationRaw1 &frame1)
+{
+    frame0.iA_raw = clampRawU16(adcData.tempData[0]);
+    frame0.iR_raw = clampRawU16(adcData.tempData[1]);
+    frame0.vA_raw = clampRawU16(adcData.tempData[2]);
+    frame0.iB_raw = clampRawU16(adcData.tempData[3]);
+
+    frame1.vB_raw = clampRawU16(adcData.tempData[4]);
+    frame1.iWPT_raw = clampRawU16(adcData.tempData[5]);
+    frame1.vWPT_raw = clampRawU16(adcData.tempData[6]);
+    frame1.reserved = 0U;
+}
+#endif
 
 static FDCAN_RxHeaderTypeDef rxHeader = {};
 
@@ -220,8 +248,23 @@ void sendSCData()
             reinterpret_cast<uint8_t *>(&txDataNew)
         );
     }
+
+#ifdef CALIBRATION_MODE
+    generateCalibrationRawFrames(txCalibrationRaw0, txCalibrationRaw1);
+    HAL_FDCAN_AddMessageToTxFifoQ(
+        &hfdcan3,
+        &txHeaderCal0,
+        reinterpret_cast<uint8_t *>(&txCalibrationRaw0)
+    );
+    HAL_FDCAN_AddMessageToTxFifoQ(
+        &hfdcan3,
+        &txHeaderCal1,
+        reinterpret_cast<uint8_t *>(&txCalibrationRaw1)
+    );
+#endif
+
     ctrlData.lastTxTimestamp = sysData.vTick;
-    Interface::flashLED(2, COLOR_WHITE, 2);
+    ctrlData.canTxCount++; // 增加 CAN 发送计数
 }
 
 void rxDataHandler(const RxData &rd)

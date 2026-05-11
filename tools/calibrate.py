@@ -3,6 +3,17 @@ import csv
 import re
 import math
 
+
+RAW_COLUMNS = {
+    0: 'raw_iA',
+    1: 'raw_iR',
+    2: 'raw_vA',
+    3: 'raw_iB',
+    4: 'raw_vB',
+    5: 'raw_iWPT',
+    6: 'raw_vWPT',
+}
+
 def solve_linear_regression(x_list, y_list):
     n = len(x_list)
     if n < 2:
@@ -33,11 +44,27 @@ def solve_linear_regression(x_list, y_list):
     return k, b, r_squared
 
 def parse_csv_value(filepath, index):
-    # Returns a list of values for the given index from the CSV
-    with open(filepath, 'r') as f:
+    # Supports:
+    # 1) Ozone CSV: lines like 2,"[index]",value,
+    # 2) capture_calibration.py CSV: header+rows with raw_* columns
+    with open(filepath, 'r', encoding='utf-8', newline='') as f:
+        head = f.read(1024)
+        f.seek(0)
+
+        raw_col = RAW_COLUMNS.get(index)
+        if raw_col and raw_col in head:
+            reader = csv.DictReader(f)
+            vals = []
+            for row in reader:
+                cell = row.get(raw_col, '').strip()
+                if not cell:
+                    continue
+                vals.append(float(cell))
+            if vals:
+                return sum(vals) / len(vals)
+            return None
+
         content = f.read()
-        # Regex to find tempData array values
-        # Pattern: 2,"\[index\]",([\d\.]+),
         pattern = re.compile(r'^\s*2,"\[{}\]",([\d\.]+),'.format(index), re.MULTILINE)
         matches = pattern.findall(content)
         if matches:
@@ -47,7 +74,7 @@ def parse_csv_value(filepath, index):
 
 def main():
     calib_dir = r'd:\code\rm\supercap\supercap_25_claude\PowerControlBoard_Software_FieldVersion\debug\calibration'
-    files = os.listdir(calib_dir)
+    files = sorted(os.listdir(calib_dir))
     
     # Data stores: key = channel name, value = list of (raw, target) tuples
     data = {
@@ -71,8 +98,10 @@ def main():
         6: 'vWPT'
     }
     
+    used_default_vin_for_power = False
+
     for filename in files:
-        if not filename.endswith('.csv'):
+        if not filename.lower().endswith('.csv'):
             continue
             
         filepath = os.path.join(calib_dir, filename)
@@ -82,11 +111,12 @@ def main():
         
         # Parse filename
         # 1. AxxV or Axxv: No load, Voltage xx
-        m_av = re.match(r'A([\d\.]+)V\.csv', filename, re.IGNORECASE)
-        # 2. AxxA: Load on REF, Current xx
-        m_aa = re.match(r'A([\d\.]+)A\.csv', filename, re.IGNORECASE)
-        # 3. BxxAyyV: Load on CAP, Current xx, Voltage yy
-        m_b = re.match(r'B([\d\.]+)A([\d\.]+)V\.csv', filename, re.IGNORECASE)
+        number = r'([+-]?\d+(?:\.\d+)?)'
+        m_av = re.match(rf'A{number}V\.csv', filename, re.IGNORECASE)
+        # 2. AxxA[@VinV]: Load on REF, Current xx, optional measured source voltage
+        m_aa = re.match(rf'A{number}A(?:@({number})V)?\.csv', filename, re.IGNORECASE)
+        # 3. BxxAyyV[@VinV]: Load on CAP, Current xx, CAP voltage yy, optional source voltage
+        m_b = re.match(rf'B{number}A(\d+(?:\.\d+)?)V(?:@({number})V)?\.csv', filename, re.IGNORECASE)
         
         if m_av:
             vol = float(m_av.group(1))
@@ -98,7 +128,9 @@ def main():
             
         elif m_aa:
             curr = float(m_aa.group(1))
-            targets['vA'] = 24.0
+            vin_meas = float(m_aa.group(2)) if m_aa.group(2) else None
+            if vin_meas is not None:
+                targets['vA'] = vin_meas
             targets['iA'] = 0.0 # iA does not seem to measure REF current based on data
             targets['iR'] = curr # REF current positive (in)
             targets['iB'] = 0.0
@@ -106,18 +138,24 @@ def main():
         elif m_b:
             curr = float(m_b.group(1))
             vol = float(m_b.group(2))
-            targets['vA'] = 24.0
+            vin_meas = float(m_b.group(3)) if m_b.group(3) else None
+            if vin_meas is not None:
+                targets['vA'] = vin_meas
             targets['vB'] = vol
             targets['iB'] = curr # CAP current positive (out? wait)
-            # In B1.5A..., iB was 1.49. So iB target should be positive.
-            targets['iR'] = 0.0
+            # In Bxx points, source-side current path contributes to iR too.
+            # Using iR=0 causes systematic bias for iR calibration.
             
             # Estimate iA target
             # P_in = P_out / Efficiency
             # vA * iA = (vB * iB) / 0.9 (Assume 90% efficiency)
             # iA = (vB * iB) / (vA * 0.9)
-            if targets['vA'] > 0:
-                targets['iA'] = (vol * curr) / (targets['vA'] * 0.9)
+            vin_for_power = vin_meas if vin_meas is not None else 24.0
+            if vin_meas is None:
+                used_default_vin_for_power = True
+            if vin_for_power > 0:
+                targets['iA'] = (vol * curr) / (vin_for_power * 0.9)
+                targets['iR'] = targets['iA']
             
         else:
             print(f"Skipping {filename}: Unknown format")
@@ -135,6 +173,10 @@ def main():
                     print(f"  {channel}: Raw={raw_val:.2f}, Target={target_val:.2f}")
     
     print("\nResults:")
+
+    if used_default_vin_for_power:
+        print("[WARN] Some BxxAyyV files did not provide source voltage. iA target estimate used default 24V.")
+        print("       Recommended naming: B2A18.5V@23.7V.csv")
     
     # Alphas
     ADC_VSENSE_ALPHA = 0.8

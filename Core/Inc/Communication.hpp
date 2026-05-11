@@ -88,6 +88,22 @@ struct TxDataNew {                  // 0x052 (useNewFeedbackMessage = 1)
     uint8_t capEnergy;              // 电容现有能量，0-255
 } __attribute__((packed));
 
+#ifdef CALIBRATION_MODE
+struct TxCalibrationRaw0 {          // 0x053
+    uint16_t iA_raw;
+    uint16_t iR_raw;
+    uint16_t vA_raw;
+    uint16_t iB_raw;
+} __attribute__((packed));
+
+struct TxCalibrationRaw1 {          // 0x054
+    uint16_t vB_raw;
+    uint16_t iWPT_raw;
+    uint16_t vWPT_raw;
+    uint16_t reserved;
+} __attribute__((packed));
+#endif
+
 
 // 开启DCDC:1 错误状态:2 
 

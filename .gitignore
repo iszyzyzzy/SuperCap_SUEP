@@ -53,5 +53,7 @@ Desktop.ini
 Upper/canSDK
 
 # ai
-.CLAUDE.md
-.GENIE.md
+CLAUDE.md
+GEMINI.md
+
+.history/

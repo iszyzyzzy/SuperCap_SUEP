@@ -152,6 +152,7 @@ struct ControlData
     WPTStatus wptStatus = WPT_OFF; //无线充电状态
 
     uint32_t lastTxTimestamp = 0;
+    uint32_t canTxCount = 0; // CAN 发送计数器，用于 LED 闪烁
     
 };
 
