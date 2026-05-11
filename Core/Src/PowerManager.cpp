@@ -814,7 +814,9 @@ HRTIM1_Master_IRQHandler(void) // 136kHz/8 sample
 
         if (psData.outputABEnabled) {
 
+    #ifndef CALIBRATION_MODE
             Protection::checkShortCircuit();
+    #endif
 
     
 

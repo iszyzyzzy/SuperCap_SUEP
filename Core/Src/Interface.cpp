@@ -307,8 +307,11 @@ void updateLEDs() {
             WS2812::blink(COMM_LED, COLOR_COMM_CONNECTED);
         }
 #endif
-
-    // Flash Override
+    
+    // 每 1000 次发包闪烁一次白色
+    if (ctrlData.refLoop.isConnected && (ctrlData.canTxCount % 1000) < 250) {
+        WS2812::blink(COMM_LED, COLOR_COMM_ACTIVITY);
+    }
     for (int i = 0; i < LED_NUM; i++) {
         if (flashStates[i].active) {
             if ((sysData.vTick - flashStates[i].startTime) < flashStates[i].duration) {
